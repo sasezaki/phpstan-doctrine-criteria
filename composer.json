@@ -10,13 +10,13 @@
         }
     ],
     "require": {
-        "php": "^7.4 || ^8.0",
+        "php": "^7.2",
         "phpstan/phpstan": "^1.10",
         "phpstan/phpstan-doctrine": "^1.3",
         "doctrine/collections": "^1.8",
-        "otobank/doctrine-target-aware-criteria": "^0.3",
         "nikic/php-parser": "^4.13",
-        "doctrine/persistence": "^2.5"
+        "doctrine/persistence": "^2.5",
+        "otobank/doctrine-target-aware-criteria": "dev-php74"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.14",
@@ -37,6 +37,13 @@
             "Otobank\\PHPStan\\Doctrine\\": "tests/"
         }
     },
+    "repositories": [
+        {
+            "name": "otobank/doctrine-target-aware-criteria",
+            "type": "vcs",
+            "url": "https://github.com/sasezaki/doctrine-target-aware-criteria"
+        }
+    ],
     "scripts": {
         "qa": [
             "@test",
