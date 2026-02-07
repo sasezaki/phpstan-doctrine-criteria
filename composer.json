@@ -11,8 +11,8 @@
     ],
     "require": {
         "php": "^7.4 || ^8.0",
-        "phpstan/phpstan": "^1.12",
-        "phpstan/phpstan-doctrine": "^1.5",
+        "phpstan/phpstan": "^1.12 || ^2",
+        "phpstan/phpstan-doctrine": "^1.5 || ^2",
         "doctrine/collections": "^1.8",
         "nikic/php-parser": "^4.13",
         "doctrine/persistence": "^2.5",
@@ -22,10 +22,10 @@
         "friendsofphp/php-cs-fixer": "^3.93.1",
         "phpunit/phpunit": "^9.6.34",
         "doctrine/common": "^3.5",
-        "phpstan/phpstan-phpunit": "^1.4.2",
+        "phpstan/phpstan-phpunit": "^1.4.2 || ^2",
         "doctrine/dbal": "^2.13.9",
         "doctrine/orm": "^2.20.9",
-        "symfony/cache": "^5.4.46 || ^6 || ^7 || ^8",
+        "symfony/cache": "^5.4.46",
         "doctrine/annotations": "^1"
     },
     "autoload": {
