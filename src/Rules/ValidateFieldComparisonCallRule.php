@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\Expr\Comparison;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
+use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\TypeWithClassName;
@@ -30,6 +31,7 @@ class ValidateFieldComparisonCallRule implements \PHPStan\Rules\Rule
      * @param MethodCall $node
      *
      * @return (string|\PHPStan\Rules\RuleError)[]
+     * @throws ShouldNotHappenException
      */
     public function processNode(Node $node, Scope $scope) : array
     {
@@ -56,24 +58,36 @@ class ValidateFieldComparisonCallRule implements \PHPStan\Rules\Rule
 
         $argType = $scope->getType($args[0]->value);
 
-        if (! $argType instanceof ConstantStringType) {
+        $constantStrings = $argType->getConstantStrings();
+
+        if (! count($constantStrings) > 0) {
             return [];
         }
 
-        $field = $argType->getValue();
+        $errors = [];
+        foreach ($constantStrings as $constantString) {
+            $field = $constantString->getValue();
 
-        if (isset($node->var->class)) {
-            $criteriaClassName = $scope->resolveName($node->var->class);
-        } elseif (isset($node->var->var)) {
-            $varType = $scope->getType($node->var->var);
-            assert($varType instanceof TypeWithClassName);
-            $criteriaClassName = $varType->getClassName();
-        } else {
-            return [];
+            $criteriaClassNames = [];
+            if (isset($node->var->class)) {
+                $className = $scope->resolveName($node->var->class);
+                assert(class_exists($className));
+                $criteriaClassNames[] = $className;
+            } elseif (isset($node->var->var)) {
+                $varType = $scope->getType($node->var->var);
+                foreach ($varType->getObjectClassNames() as $className) {
+                    assert(class_exists($className));
+                    $criteriaClassNames[] = $className;
+                }
+            } else {
+                continue;
+            }
+
+            foreach ($criteriaClassNames as $criteriaClassName) {
+                $errors = array_merge($errors, $this->validateFields($criteriaClassName, [$field]));
+            }
         }
 
-        assert(class_exists($criteriaClassName));
-
-        return $this->validateFields($criteriaClassName, [$field]);
+        return $errors;
     }
 }

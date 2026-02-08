@@ -30,4 +30,11 @@ class TargetAwareComparisonCaller
         $criteria = new AcmeTargetAwareCriteria();
         $criteria->where(AcmeTargetAwareCriteria::expr()->eq('embedded.baz', 1));
     }
+
+    /** @param 'embedded.baz'|'embedded.baz2' $field */
+    public function embeddedFieldShouldNotRaiseError2(string $field) : void
+    {
+        $criteria = new AcmeTargetAwareCriteria();
+        $criteria->where(AcmeTargetAwareCriteria::expr()->eq($field, 1));
+    }
 }

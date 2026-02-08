@@ -21,4 +21,11 @@ class TargetAwareCriteriaCaller
         $criteria = new AcmeTargetAwareCriteria();
         $criteria->orderBy(['baz' => 'asc']);
     }
+
+    /** @param 'bar'|'baz' $filed */
+    public function methodCallTargetAwareCriteria2(string $filed) : void
+    {
+        $criteria = new AcmeTargetAwareCriteria();
+        $criteria->orderBy([$filed => 'asc']);
+    }
 }

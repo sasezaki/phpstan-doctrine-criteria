@@ -14,7 +14,17 @@ class EmbeddedEntity
      */
     private $baz;
 
+    /**
+     * @ORM\Column(name="baz2", type="string")
+     */
+    private $baz2;
+
     public function getBaz() : string
+    {
+        return $this->baz;
+    }
+
+    public function getBaz2() : string
     {
         return $this->baz;
     }

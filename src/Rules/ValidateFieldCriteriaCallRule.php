@@ -69,26 +69,35 @@ class ValidateFieldCriteriaCallRule implements \PHPStan\Rules\Rule
 
         $argType = $scope->getType($args[0]->value);
 
-        if (! $argType instanceof ConstantArrayType) {
+        if ($argType->isConstantArray()->no()) {
             return [];
         }
 
-        if (count($argType->getKeyTypes()) === 0) {
+        $argTypes = $argType->getConstantArrays();
+
+        if (count($argTypes) === 0) {
             return [];
         }
 
         $fields = [];
-        foreach ($argType->getKeyTypes() as $keyType) {
-            if (! $keyType instanceof ConstantStringType) {
-                continue;
-            }
+        foreach ($argTypes as $argType) {
+            foreach ($argType->getKeyTypes() as $keyType) {
+                $keys = $keyType->getConstantStrings();
+                if (count($keys) === 0) {
+                    continue;
+                }
 
-            $fields[] = $keyType->getValue();
+                foreach ($keys as $key) {
+                    $fields[] = $key->getValue();
+                }
+            }
         }
 
-        $criteriaClassName = $type->getClassName();
-        assert(class_exists($criteriaClassName));
-
-        return $this->validateFields($criteriaClassName, $fields);
+        $errors = [];
+        foreach ($type->getObjectClassNames() as $criteriaClassName) {
+            assert(class_exists($criteriaClassName));
+            $errors = array_merge($errors, $this->validateFields($criteriaClassName, $fields));
+        }
+        return $errors;
     }
 }
