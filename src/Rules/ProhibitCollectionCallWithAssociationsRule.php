@@ -57,9 +57,9 @@ class ProhibitCollectionCallWithAssociationsRule implements \PHPStan\Rules\Rule
                 $results2[] = $result2 = $selectableType->isSuperTypeOf($childType);
             }
 
-            if (class_exists('\PHPStan\Type\IsSuperTypeOfResult', false) &&
-                $result1 instanceof \PHPStan\Type\IsSuperTypeOfResult &&
-                $result2 instanceof \PHPStan\Type\IsSuperTypeOfResult) {
+            if (class_exists('\PHPStan\Type\IsSuperTypeOfResult')
+                && $result1 instanceof \PHPStan\Type\IsSuperTypeOfResult
+                && $result2 instanceof \PHPStan\Type\IsSuperTypeOfResult) {
                 // For PHPStan 2
                 $isCollectionType = $result1;
                 $isSelectableType = $result2;

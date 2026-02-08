@@ -7,9 +7,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\ShouldNotHappenException;
-use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\ObjectType;
-use PHPStan\Type\TypeWithClassName;
 
 /**
  * ```
@@ -31,6 +29,7 @@ class ValidateFieldComparisonCallRule implements \PHPStan\Rules\Rule
      * @param MethodCall $node
      *
      * @return (string|\PHPStan\Rules\RuleError)[]
+     *
      * @throws ShouldNotHappenException
      */
     public function processNode(Node $node, Scope $scope) : array

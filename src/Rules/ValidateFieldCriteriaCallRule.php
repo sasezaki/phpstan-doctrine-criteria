@@ -7,8 +7,6 @@ use Otobank\Doctrine\Collections\TargetAwareCriteriaInterface;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
-use PHPStan\Type\Constant\ConstantArrayType;
-use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\ObjectType;
 
 /**
@@ -98,6 +96,7 @@ class ValidateFieldCriteriaCallRule implements \PHPStan\Rules\Rule
             assert(class_exists($criteriaClassName));
             $errors = array_merge($errors, $this->validateFields($criteriaClassName, $fields));
         }
+
         return $errors;
     }
 }

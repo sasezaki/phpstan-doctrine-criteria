@@ -22,7 +22,7 @@ class CriteriaStaticMethodReturnTypeExtension implements DynamicStaticMethodRetu
 
     public function isStaticMethodSupported(MethodReflection $methodReflection) : bool
     {
-        return $methodReflection->getName() === 'create';
+        return 'create' === $methodReflection->getName();
     }
 
     public function getTypeFromStaticMethodCall(
