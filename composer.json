@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "php": "^7.4 || ^8.0",
+        "php": "^7.4 || ~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0",
         "phpstan/phpstan": "^1.12 || ^2",
         "phpstan/phpstan-doctrine": "^1.5 || ^2",
         "doctrine/collections": "^1.8",
