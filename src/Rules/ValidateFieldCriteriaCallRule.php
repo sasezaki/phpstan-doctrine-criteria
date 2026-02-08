@@ -39,7 +39,7 @@ class ValidateFieldCriteriaCallRule implements \PHPStan\Rules\Rule
     {
         $type = $scope->getType($node->var);
 
-        if (! $type instanceof ObjectType) {
+        if (! $type->isObject()->yes()) {
             return [];
         }
 

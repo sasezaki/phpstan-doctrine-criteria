@@ -30,7 +30,7 @@ class ProhibitComparisonNewRule implements \PHPStan\Rules\Rule
     {
         $type = $scope->getType($node);
 
-        if (! $type instanceof ObjectType) {
+        if (! $type->isObject()->yes()) {
             return [];
         }
 

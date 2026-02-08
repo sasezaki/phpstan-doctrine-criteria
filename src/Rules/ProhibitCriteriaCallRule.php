@@ -32,7 +32,7 @@ class ProhibitCriteriaCallRule implements \PHPStan\Rules\Rule
 
         $calledOnType = $scope->getType($node->var);
 
-        if (! $calledOnType instanceof ObjectType) {
+        if (! $calledOnType->isObject()->yes()) {
             return [];
         }
 

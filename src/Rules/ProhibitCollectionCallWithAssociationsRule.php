@@ -41,7 +41,7 @@ class ProhibitCollectionCallWithAssociationsRule implements \PHPStan\Rules\Rule
         $collectionType = new ObjectType(Collection::class);
         $selectableType = new ObjectType(Selectable::class);
 
-        if ($calledOnType instanceof ObjectType) {
+        if ($calledOnType->isObject()->yes()) {
             $isCollectionType = $collectionType->isSuperTypeOf($calledOnType);
             $isSelectableType = $selectableType->isSuperTypeOf($calledOnType);
         } elseif (
@@ -65,8 +65,8 @@ class ProhibitCollectionCallWithAssociationsRule implements \PHPStan\Rules\Rule
                 $isSelectableType = $result2;
             } else {
                 // For PHPStan 1
-                $isCollectionType = TrinaryLogic::createNo()->or(...$results1);
-                $isSelectableType = TrinaryLogic::createNo()->or(...$results2);
+                $isCollectionType = TrinaryLogic::createNo()->or(...$results1); /** @phpstan-ignore argument.type */
+                $isSelectableType = TrinaryLogic::createNo()->or(...$results2); /** @phpstan-ignore argument.type */
             }
         } else {
             return [];
