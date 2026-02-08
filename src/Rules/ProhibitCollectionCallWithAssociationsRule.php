@@ -50,6 +50,8 @@ class ProhibitCollectionCallWithAssociationsRule implements \PHPStan\Rules\Rule
         ) {
             $results1 = [];
             $results2 = [];
+            $result1 = null;
+            $result2 = null;
             foreach ($calledOnType->getTypes() as $childType) {
                 $results1[] = $result1 = $collectionType->isSuperTypeOf($childType);
                 $results2[] = $result2 = $selectableType->isSuperTypeOf($childType);

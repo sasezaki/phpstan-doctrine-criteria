@@ -6,6 +6,7 @@ use PHPStan\Testing\PHPStanTestCase;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
+/** @phpstan-ignore function.alreadyNarrowedType */
 if (method_exists(Doctrine\Common\Annotations\AnnotationRegistry::class, 'registerLoader')) {
     // for old doctrine annotations
     // to avoid "Doctrine\Common\Annotations\AnnotationException: [Semantical Error] The annotation "@Doctrine\ORM\Mapping\Embeddable"
