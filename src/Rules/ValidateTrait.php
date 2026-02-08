@@ -5,17 +5,20 @@ namespace Otobank\PHPStan\Doctrine\Rules;
 use Doctrine\ORM\EntityManager;
 use Otobank\Doctrine\Collections\AssociationAwareCriteriaInterface;
 use Otobank\Doctrine\Collections\TargetAwareCriteriaInterface;
+use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ExtendedMethodReflection;
+use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Type\Doctrine\ObjectMetadataResolver;
 
 trait ValidateTrait
 {
-    /** @var ObjectMetadataResolver */
-    private $objectMetadataResolver;
+    private ObjectMetadataResolver $objectMetadataResolver;
 
-    /** @var EntityManager */
-    private $objectManager;
+    private ReflectionProvider $reflectionProvider;
 
-    public function __construct(ObjectMetadataResolver $objectMetadataResolver)
+    private EntityManager $objectManager;
+
+    public function __construct(ObjectMetadataResolver $objectMetadataResolver, ReflectionProvider $reflectionProvider)
     {
         $this->objectMetadataResolver = $objectMetadataResolver;
 
@@ -29,6 +32,7 @@ trait ValidateTrait
         }
 
         $this->objectManager = $objectManager;
+        $this->reflectionProvider = $reflectionProvider;
     }
 
     /**
@@ -37,16 +41,18 @@ trait ValidateTrait
      *
      * @return list<string>
      */
-    private function validateFields(string $criteriaClassName, array $fields) : array
+    private function validateFields(string $criteriaClassName, array $fields, Scope $scope) : array
     {
-        if (! is_a($criteriaClassName, TargetAwareCriteriaInterface::class, true)) {
+        if (! $this->reflectionProvider->getClass($criteriaClassName)->is(TargetAwareCriteriaInterface::class)) {
             return [];
         }
+
+        $scope
 
         $targetClass = $criteriaClassName::getTargetClass();
 
         $assocMap = [];
-        if (is_a($criteriaClassName, AssociationAwareCriteriaInterface::class, true)) {
+        if ($this->reflectionProvider->getClass($criteriaClassName)->is(AssociationAwareCriteriaInterface::class)) {
             $assocMap = $criteriaClassName::getAssociationMap();
         }
 

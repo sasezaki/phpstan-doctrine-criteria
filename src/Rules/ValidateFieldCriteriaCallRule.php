@@ -94,7 +94,7 @@ class ValidateFieldCriteriaCallRule implements \PHPStan\Rules\Rule
         $errors = [];
         foreach ($type->getObjectClassNames() as $criteriaClassName) {
             assert(class_exists($criteriaClassName));
-            $errors = array_merge($errors, $this->validateFields($criteriaClassName, $fields));
+            $errors = array_merge($errors, $this->validateFields($criteriaClassName, $fields, $scope));
         }
 
         return $errors;

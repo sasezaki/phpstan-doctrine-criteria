@@ -20,7 +20,7 @@ class ValidateFieldComparisonCallRuleTest extends RuleTestCase
             __DIR__ . '/Asset/entity-manager.php', __DIR__ . '/../../tmp'
         );
 
-        return new ValidateFieldComparisonCallRule($objectMetadataResolver);
+        return new ValidateFieldComparisonCallRule($objectMetadataResolver, $this->createReflectionProvider());
     }
 
     public function testProcessNode() : void

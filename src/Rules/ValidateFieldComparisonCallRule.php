@@ -83,7 +83,7 @@ class ValidateFieldComparisonCallRule implements \PHPStan\Rules\Rule
             }
 
             foreach ($criteriaClassNames as $criteriaClassName) {
-                $errors = array_merge($errors, $this->validateFields($criteriaClassName, [$field]));
+                $errors = array_merge($errors, $this->validateFields($criteriaClassName, [$field], $scope));
             }
         }
 

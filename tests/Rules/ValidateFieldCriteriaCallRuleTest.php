@@ -21,7 +21,7 @@ class ValidateFieldCriteriaCallRuleTest extends RuleTestCase
             __DIR__ . '/Asset/entity-manager.php', __DIR__ . '/../../tmp'
         );
 
-        return new ValidateFieldCriteriaCallRule($objectMetadataResolver);
+        return new ValidateFieldCriteriaCallRule($objectMetadataResolver, $this->createReflectionProvider());
     }
 
     /**
