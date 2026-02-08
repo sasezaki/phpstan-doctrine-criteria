@@ -51,11 +51,20 @@ class ProhibitCollectionCallWithAssociationsRule implements \PHPStan\Rules\Rule
             $results1 = [];
             $results2 = [];
             foreach ($calledOnType->getTypes() as $childType) {
-                $results1[] = $collectionType->isSuperTypeOf($childType);
-                $results2[] = $selectableType->isSuperTypeOf($childType);
+                $results1[] = $result1 = $collectionType->isSuperTypeOf($childType);
+                $results2[] = $result2 = $selectableType->isSuperTypeOf($childType);
             }
-            $isCollectionType = TrinaryLogic::createNo()->or(...$results1);
-            $isSelectableType = TrinaryLogic::createNo()->or(...$results2);
+
+            if ($result1 instanceof \PHPStan\Type\IsSuperTypeOfResult &&
+                $result2 instanceof \PHPStan\Type\IsSuperTypeOfResult) {
+                // For PHPStan 2
+                $isCollectionType = $result1;
+                $isSelectableType = $result2;
+            } else {
+                // For PHPStan 1
+                $isCollectionType = TrinaryLogic::createNo()->or(...$results1);
+                $isSelectableType = TrinaryLogic::createNo()->or(...$results2);
+            }
         } else {
             return [];
         }
